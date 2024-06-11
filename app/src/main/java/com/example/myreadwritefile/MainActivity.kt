@@ -8,21 +8,22 @@ import androidx.appcompat.app.AlertDialog
 import com.example.myreadwritefile.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.buttonNew.setOnClickListener(this)
         binding.buttonOpen.setOnClickListener(this)
         binding.buttonSave.setOnClickListener(this)
+
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
+    override fun onClick(view: View) {
+        when (view.id) {
             R.id.button_new -> newFile()
             R.id.button_open -> showList()
             R.id.button_save -> saveFile()
@@ -32,16 +33,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun newFile() {
         binding.editTitle.setText("")
         binding.editFile.setText("")
-        Toast.makeText(this, "Clearing File", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Clearing file", Toast.LENGTH_SHORT).show()
     }
 
     private fun showList() {
         val items = fileList()
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Pilih file yang diinginkan")
-        builder.setItems(items) { dialog, item ->
-            loadData(items[item].toString())
-        }
+        builder.setItems(items) { dialog, item -> loadData(items[item].toString()) }
         val alert = builder.create()
         alert.show()
     }
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             binding.editFile.text.toString().isEmpty() -> Toast.makeText(
                 this,
-                "Konten harus diisi terlebih dahulu",
+                "Kontent harus diisi terlebih dahulu",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -76,7 +75,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 FileHelper.writeToFile(fileModel, this)
                 Toast.makeText(this, "Saving " + fileModel.fileName + " file", Toast.LENGTH_SHORT)
                     .show()
-
             }
         }
     }
